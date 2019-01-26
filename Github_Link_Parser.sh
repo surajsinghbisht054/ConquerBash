@@ -69,7 +69,8 @@ wget $w -O /tmp/github_link_extractor
 for((n=0; n<1; n++))
 do
 
-	cat /tmp/github_link_extractor | tr ' ' '\n' | tr '>' '\n' | grep -i "href=[^>]" | cut -d '"' -f 2 | uniq | sort | grep -e "/$USERNAME/.*" | xargs -n 1 -I% echo "https://github.com%" > $OUTPUT_F ;
+	cat /tmp/github_link_extractor | tr ' ' '\n' | tr '>' '\n' | grep -i "href=[^>]" | cut -d '"' -f 2 | uniq | sort | grep -e "/$USERNAME/.*" | cut -d '/' -f 3 | uniq | xargs -n 1 -I% echo "/$USERNAME/%" | xargs -n 1 -I% echo "https://github.com%" >> $OUTPUT_F ;
+
 
 	token=$(cat /tmp/github_link_extractor | tr " " "\n" |grep -e "href="| tr ">" "\n" | grep -e "after" | cut -d"=" -f3 | cut -d"&" -f 1);
 done;
